@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    include:
+      - core
+server:
+  error:
+    include-message: always
+  port: 18080
+---
