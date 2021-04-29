@@ -16,9 +16,9 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_UID")
     private Long userUid;
-
-    @Column(name = "USER_ID", unique = true)
-    private String userId;
+    
+    @Column(name = "EMAIL", unique = true)
+    private String email;
 
     @Column(name = "USER_NAME")
     private String userName;
@@ -42,16 +42,16 @@ public class User implements Serializable {
 
     }
 
-    public User(String userId, String userName, String password) {
+    public User(String email, String userName, String password) {
 
-        this.userId = userId;
+        this.email = email;
         this.userName = userName;
         this.password = password;
     }
 
-    public User(String userId, String userName, String password, UserType userType) {
+    public User(String email, String userName, String password, UserType userType) {
 
-        this.userId = userId;
+        this.email = email;
         this.userName = userName;
         this.password = password;
         this.userType = userType;
@@ -65,12 +65,12 @@ public class User implements Serializable {
         this.userUid = userUid;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUserName() {

@@ -1,5 +1,6 @@
 package com.board.api.service.impl;
 
+import com.board.api.dto.UserForm;
 import com.board.api.service.UserService;
 import com.board.common.entity.User;
 import com.board.common.repository.UserRepository;
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createItem(User user) {
 
-        if (repository.existsByUserId(user.getUserId())) {
+        if (repository.existsByEmail(user.getEmail())) {
             throw new HibernateException("User Already Exist!");
         }
 
@@ -39,7 +40,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateItem(User user) {
 
-        if (!repository.existsByUserId(user.getUserId())) {
+        if (!repository.existsByEmail(user.getEmail())) {
             throw new HibernateException("User Do Not Exist!");
         }
 
@@ -58,12 +59,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public void deleteUser(String userId) {
+    public void deleteUser(String Email) {
 
-        if (!repository.existsByUserId(userId)) {
+        if (!repository.existsByEmail(Email)) {
             throw new HibernateException("User Do Not Exist!");
         }
 
-        repository.deleteByUserId(userId);
+        repository.deleteByEmail(Email);
+    }
+
+    @Transactional
+    @Override
+    public User signUpUser(UserForm userForm) {
+
+        User user = new User(userForm.getEmail(), userForm.getUserName(), userForm.getPassword());
+        return this.createItem(user);
     }
 }

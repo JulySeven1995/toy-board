@@ -28,7 +28,7 @@ public class UserRepositoryTests {
         final User userForSave = new User("Jaeho", "멋쟁이 재호", "1234", UserType.ADMIN);
         final User savedUser = repository.saveAndFlush(userForSave);
 
-        assertEquals(userForSave.getUserId(), savedUser.getUserId());
+        assertEquals(userForSave.getEmail(), savedUser.getEmail());
         assertEquals(UserType.ADMIN, savedUser.getUserType());
     }
 
@@ -44,7 +44,7 @@ public class UserRepositoryTests {
         userForUpdate.setUserName(NAME);
         repository.saveAndFlush(userForUpdate);
 
-        assertEquals(repository.findByUserId(ID).get().getUserName(), NAME);
+        assertEquals(repository.findByEmail(ID).get().getUserName(), NAME);
     }
 
     @Test
@@ -54,9 +54,9 @@ public class UserRepositoryTests {
         final User userForSave = new User(ID, "멋쟁이 재호", "3145");
 
         repository.saveAndFlush(userForSave);
-        repository.deleteByUserId(userForSave.getUserId());
+        repository.deleteByEmail(userForSave.getEmail());
 
-        assertFalse(repository.findByUserId(ID).isPresent());
+        assertFalse(repository.findByEmail(ID).isPresent());
     }
 
 }

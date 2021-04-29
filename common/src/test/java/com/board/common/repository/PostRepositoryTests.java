@@ -62,8 +62,8 @@ public class PostRepositoryTests {
         Post post =  new Post(user, "저장 테스트");
         post = postRepository.saveAndFlush(post);
 
-        assertEquals(userRepository.findByUserId(USER_ID).get().hashCode(), post.getUser().hashCode());
-        assertTrue(postRepository.findAllByUser(userRepository.findByUserId(USER_ID).get()).contains(post));
+        assertEquals(userRepository.findByEmail(USER_ID).get().hashCode(), post.getUser().hashCode());
+        assertTrue(postRepository.findAllByUser(userRepository.findByEmail(USER_ID).get()).contains(post));
     }
 
     @Test

@@ -2,8 +2,16 @@ spring:
   profiles:
     include:
       - core
+  thymeleaf:
+    prefix: classpath:/static/
+    suffix: .html
+  security:
+    user:
+      name: jaeho
+      password: 3145
+
 server:
   error:
     include-message: always
-  port: 18080
+  port: 8080
 ---
