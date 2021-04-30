@@ -3,14 +3,17 @@ package com.board.common.entity;
 import com.board.common.converter.UserTypeConverter;
 import com.board.common.type.UserType;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "USER")
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +40,9 @@ public class User implements Serializable {
     @CreationTimestamp
     @Column(name = "LAST_LOGIN_DATE")
     private Date lastLoginDate;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    List<Post> posts = new ArrayList<>();
 
     public User() {
 
@@ -83,9 +89,47 @@ public class User implements Serializable {
         this.userName = userName;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+        List<GrantedAuthority> list = new ArrayList<>();
+        list.add(this.getUserType());
+        return list;
+    }
+
     public String getPassword() {
 
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+
+        return this.getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+
+        return  Boolean.TRUE;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+
+        return !this.userType.equals(UserType.DORMANT);
+    }
+
+    @Override
+    public boolean isEnabled() {
+
+        return Boolean.TRUE;
     }
 
     public void setPassword(String password) {
@@ -103,20 +147,43 @@ public class User implements Serializable {
         this.userType = userType;
     }
 
+    public List<Post> getPosts() {
+
+        return posts;
+    }
+
+    public void addPosts(Post post) {
+
+        this.posts.add(post);
+    }
+
+    public void addPosts(List<Post> posts) {
+
+        this.posts.addAll(posts.stream().peek(post -> post.setUser(this)).collect(Collectors.toList()));
+    }
+
+    public void setPosts(List<Post> posts) {
+
+        this.posts = posts.stream().peek(post -> post.setUser(this)).collect(Collectors.toList());
+    }
 
     public Date getCreatedDate() {
+
         return createdDate;
     }
 
     public void setCreatedDate(Date createdDate) {
+
         this.createdDate = createdDate;
     }
 
     public Date getLastLoginDate() {
+
         return lastLoginDate;
     }
 
     public void setLastLoginDate(Date lastLoginDate) {
+
         this.lastLoginDate = lastLoginDate;
     }
 }

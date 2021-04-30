@@ -1,5 +1,6 @@
 package com.board.api.controller;
 
+import com.board.api.service.PostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -17,11 +18,11 @@ public class PostController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final PostController postController;
+    private final PostService postService;
 
-    public PostController(PostController postController) {
+    public PostController(PostService postService) {
 
-        this.postController = postController;
+        this.postService = postService;
     }
 
 

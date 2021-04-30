@@ -5,6 +5,9 @@ import com.board.api.service.UserService;
 import com.board.common.entity.User;
 import com.board.common.repository.UserRepository;
 import org.hibernate.HibernateException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -33,6 +36,9 @@ public class UserServiceImpl implements UserService {
             throw new HibernateException("User Already Exist!");
         }
 
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        user.setPassword(encoder.encode(user.getPassword()));
         return repository.saveAndFlush(user);
     }
 
@@ -73,6 +79,20 @@ public class UserServiceImpl implements UserService {
     public User signUpUser(UserForm userForm) {
 
         User user = new User(userForm.getEmail(), userForm.getUserName(), userForm.getPassword());
+
         return this.createItem(user);
+    }
+
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+
+        return repository.findByEmail(email);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+        return repository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(email));
     }
 }
