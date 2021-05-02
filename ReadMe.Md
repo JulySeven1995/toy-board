@@ -19,6 +19,20 @@
 
 ---
 
+**프로젝트 Dependency**
+
+1. Spring Security 
+
+   용도 : 로그인, 회원가입
+
+2. Spring Data JPA(Hibernate)
+
+   용도 : RDB 객체 구현
+
+3. Spring Web
+
+   용도 : Client와의 Endpoint 및 Front 제공
+
 프로젝트 구조는 아래와 같이 멀티모듈 구조로 구성했습니다.
 
 ```shell
