@@ -25,6 +25,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -38,7 +39,9 @@ public class ViewControllerTest {
 
     private MockMvc mvc;
 
-    private final User user = new User("julyseven1995@gmail.com", "최재호", "1234");
+    private final String email = "julyseven1995@gmail.com";
+    private final String password = "1234";
+    private final User user = new User(email, "최재호", password);
 
     @Before
     public void setup() {
@@ -75,6 +78,29 @@ public class ViewControllerTest {
 
         mvc.perform(get("/signUp").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithAnonymousUser
+    public void 회원가입() throws Exception {
+
+        mvc.perform(post("/signUp").contentType(MediaType.APPLICATION_JSON)
+                .param("email", "email")
+                .param("userName", "JaehoChoi")
+                .param("password","password")
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    @WithAnonymousUser
+    public void 로그인() throws Exception {
+
+        mvc.perform(post("/login").contentType(MediaType.APPLICATION_JSON)
+                .param("email", email)
+                .param("password",password)
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
