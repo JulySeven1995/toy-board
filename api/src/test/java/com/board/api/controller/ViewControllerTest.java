@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ViewController {
+public class ViewControllerTest {
 
     @Autowired
     private UserService userService;
@@ -38,7 +38,7 @@ public class ViewController {
 
     private MockMvc mvc;
 
-    private final User user = new User("jhchoi950707@gmail.com", "최재호", "1234");
+    private final User user = new User("julyseven1995@gmail.com", "최재호", "1234");
 
     @Before
     public void setup() {
