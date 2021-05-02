@@ -71,7 +71,7 @@ gradle api:bootRun --args='--spring.profiles.active=local'
 http://localhost:8080/
 ```
 
-`local`로 세팅하여 실행 할 경우, `jhchoi950707` / `3145` 의 기본 계정이 생성되며, 접속시 기본적인 게시글이 등록되어 있습니다.
+`local`로 세팅하여 실행 할 경우, `jhchoi950707@gmail.com` / `3145` 의 기본 계정이 생성되며, 접속시 기본적인 게시글이 등록되어 있습니다.
 
 ---
 
