@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @Controller
 @RequestMapping("/file")
@@ -38,9 +40,13 @@ public class FileController {
 
         HttpHeaders responseHeaders = new HttpHeaders();
 
-        responseHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        responseHeaders.setContentType(new MediaType("application", "download", StandardCharsets.UTF_8));
         responseHeaders.set("Content-Disposition", "attachment;filename=\"" + postFile.getOriginalFileName() + "\";");
         responseHeaders.set("Content-Transfer-Encoding", "binary");
+        String encodedFilename = URLEncoder.encode(postFile.getOriginalFileName(),"UTF-8").replace("+", "%20");
+
+        responseHeaders.set("Content-Disposition",
+                "attachment;filename=" + encodedFilename + ";filename*= UTF-8''" + encodedFilename);
 
         return new ResponseEntity<>(new InputStreamResource(resource.getInputStream()), responseHeaders, HttpStatus.OK);
     }
