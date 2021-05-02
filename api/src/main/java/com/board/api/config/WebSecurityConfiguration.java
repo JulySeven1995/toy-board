@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @EnableWebSecurity
 @Configuration
@@ -24,22 +25,25 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/login", "/signUp", "/user").permitAll()
+                .antMatchers("/login", "/signUp").permitAll()
                 .antMatchers("/index").hasAnyAuthority(UserType.GENERAL.getAuthority(), UserType.ADMIN.getAuthority())
                 .antMatchers("/api/**").permitAll()
                 .antMatchers("/assets/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
+                .anyRequest().authenticated();
+
+        http.formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/login/result", Boolean.TRUE)
-                .and()
-                .logout()
+                .defaultSuccessUrl("/index", Boolean.TRUE);
+
+        http.logout()
+                .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")
-                .invalidateHttpSession(Boolean.TRUE)
-                .and()
-                .exceptionHandling().accessDeniedPage("/user/denied");
-        ;
+                .invalidateHttpSession(Boolean.TRUE);
+
+        http.exceptionHandling()
+                .accessDeniedPage("/denied");
+
+        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     }
 
     @Override

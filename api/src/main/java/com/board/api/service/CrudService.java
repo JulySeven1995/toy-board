@@ -6,9 +6,9 @@ public interface CrudService<T, ID> {
 
     Optional<T> getItemByUid(ID uid);
 
-    T createItem(T user);
+    T createItem(T item);
 
-    T updateItem(T user);
+    T updateItem(T item);
 
     void deleteItem(ID uid);
 }

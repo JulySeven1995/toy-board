@@ -11,4 +11,6 @@ public interface UserService extends UserDetailsService, CrudService<User, Long>
     User signUpUser(UserForm userForm);
 
     Optional<User> getUserByEmail(String email);
+
+    void deleteUser(String email);
 }

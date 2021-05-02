@@ -5,6 +5,7 @@ import com.board.api.service.UserService;
 import com.board.common.entity.User;
 import com.board.common.repository.UserRepository;
 import org.hibernate.HibernateException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,6 +15,7 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
+@Qualifier("userDetailsService")
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
@@ -65,6 +67,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
+    @Override
     public void deleteUser(String Email) {
 
         if (!repository.existsByEmail(Email)) {

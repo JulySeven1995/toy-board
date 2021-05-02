@@ -14,6 +14,9 @@ public class ObjectMapperServiceImpl implements ObjectMapperService {
     @Override
     public Map<String, Object> convertToMap(Object o) {
 
-        return objectMapper.convertValue(o, new TypeReference<Map<String, Object>>() {});
+        Map<String, Object> result = objectMapper.convertValue(o, new TypeReference<Map<String, Object>>() {});
+        result.remove("password");
+
+        return result;
     }
 }

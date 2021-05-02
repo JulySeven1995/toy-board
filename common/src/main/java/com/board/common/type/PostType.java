@@ -3,7 +3,7 @@ package com.board.common.type;
 public enum PostType implements CommonType {
 
     NORMAL("정상 게시글", "NORMAL"),
-    DELETED("삭제된 게시글", "DELETED"),
+    SPECIAL("특별한 게시글", "SPECIAL"),
     ;
 
     private final String desc;

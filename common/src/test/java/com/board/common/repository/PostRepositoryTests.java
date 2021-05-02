@@ -59,32 +59,34 @@ public class PostRepositoryTests {
     @Test
     public void savePosts() {
 
-        Post post =  new Post(user, "저장 테스트");
-        post = postRepository.saveAndFlush(post);
+        Post post =  new Post("저장 테스트", "저장 테스트");
+        user.addPost(post);
+        userRepository.saveAndFlush(user);
 
-        assertEquals(userRepository.findByEmail(USER_ID).get().hashCode(), post.getUser().hashCode());
-        assertTrue(postRepository.findAllByUser(userRepository.findByEmail(USER_ID).get()).contains(post));
+        assertEquals(userRepository.findByEmail(USER_ID).get().getUserUid(), post.getUser().getUserUid());
+        assertTrue(postRepository.findAllByUser(userRepository.findByEmail(USER_ID).get())
+                .contains(user.getPosts().get(NumberUtils.INTEGER_ZERO)));
     }
 
     @Test
     public void updatePosts() {
 
-        Post post =  new Post(user, "업데이트 테스트");
+        Post post =  new Post(user, "업데이트 테스트", "업데이트 테스트");
         post = postRepository.saveAndFlush(post);
 
         assertEquals(post.getPostType(), PostType.NORMAL);
 
-        post.setPostType(PostType.DELETED);
+        post.setPostType(PostType.SPECIAL);
         postRepository.saveAndFlush(post);
 
         assertEquals(postRepository.findById(post.getPostUid()).get().getPostType(),
-                PostType.DELETED);
+                PostType.SPECIAL);
     }
 
     @Test
     public void deletePosts() {
 
-        Post post =  new Post(user, "삭제 테스트");
+        Post post =  new Post(user, "삭제 테스트", "삭제 테스트");
 
         post = postRepository.saveAndFlush(post);
         postRepository.delete(post);

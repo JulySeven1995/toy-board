@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "USER")
-public class User implements Serializable, UserDetails {
+public class User implements Serializable, UserDetails, Cloneable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +41,7 @@ public class User implements Serializable, UserDetails {
     @Column(name = "LAST_LOGIN_DATE")
     private Date lastLoginDate;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<Post> posts = new ArrayList<>();
 
     public User() {
@@ -152,8 +152,9 @@ public class User implements Serializable, UserDetails {
         return posts;
     }
 
-    public void addPosts(Post post) {
+    public void addPost(Post post) {
 
+        post.setUser(this);
         this.posts.add(post);
     }
 

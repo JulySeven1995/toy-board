@@ -4,9 +4,9 @@ import org.springframework.security.core.GrantedAuthority;
 
 public enum UserType implements CommonType, GrantedAuthority {
 
-    ADMIN("관리자", "ROLE_ADMIN"),
-    GENERAL("일반 사용자", "ROLE_GENERAL"),
-    DORMANT("휴면 계정", "ROLE_DORMANT"),
+    ADMIN("관리자", "ADMIN"),
+    GENERAL("일반 사용자", "GENERAL"),
+    DORMANT("휴면 계정", "DORMANT"),
     ;
 
     private final String desc;
