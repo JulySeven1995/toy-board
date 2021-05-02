@@ -22,8 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.security.Principal;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 
@@ -42,6 +41,7 @@ public class ViewControllerTest {
     private final String email = "julyseven1995@gmail.com";
     private final String password = "1234";
     private final User user = new User(email, "최재호", password);
+    private final Post post = new Post(user, "제목", "내용");
 
     @Before
     public void setup() {
@@ -54,7 +54,6 @@ public class ViewControllerTest {
     @Before
     public void userSetup() {
 
-        user.addPost(new Post("제목", "내용"));
         userService.createItem(user);
     }
 
