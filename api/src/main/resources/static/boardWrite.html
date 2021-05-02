@@ -87,7 +87,7 @@
                         <li class="user-profile header-notification">
                             <a href="#!">
                                 <img src="assets/images/avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
-                                <span><span sec:authentication="principal.username"></span></span>
+                                <span id="userId" sec:authentication="principal.username"></span>
                                 <i class="ti-angle-down"></i>
                             </a>
                             <ul class="show-notification profile-notification">
@@ -113,7 +113,7 @@
                             <div class="main-menu-header">
                                 <img class="img-40 img-radius" src="assets/images/avatar-4.jpg" alt="User-Profile-Image">
                                 <div class="user-details">
-                                    <span sec:authentication="principal.username"></span>
+                                    <span id="userName"></span>
                                     <span id="more-details">프로필<i class="ti-angle-down"></i></span>
                                 </div>
                             </div>
@@ -268,7 +268,14 @@
 <script type="text/javascript" src="assets/js/script.js"></script>
 <script src="assets/js/pcoded.min.js"></script>
 <script src="assets/js/demo-12.js"></script>
-<script src="assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="assets/js/init.profile.js"></script>
 </body>
 
+<script>
+
+    $(document).ready(function () {
+        getUserInfo($('#userId').text(), $('#userName'));
+    });
+
+</script>
 </html>
