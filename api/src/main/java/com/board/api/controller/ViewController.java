@@ -1,5 +1,6 @@
 package com.board.api.controller;
 
+import com.board.api.dto.UserForm;
 import com.board.api.service.ObjectMapperService;
 import com.board.api.service.PostFileService;
 import com.board.api.service.PostService;
@@ -7,6 +8,7 @@ import com.board.api.service.UserService;
 import com.board.common.entity.Post;
 import com.board.common.entity.PostFile;
 import com.board.common.entity.User;
+import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -52,6 +54,27 @@ public class ViewController {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         return "redirect:/login";
+    }
+
+    @GetMapping("/signUp")
+    public String signUp() {
+
+        return "/signUp";
+    }
+
+    @PostMapping("/signUp")
+    public String execSignup(UserForm userForm) {
+
+        String result = "redirect:/login";
+
+        try {
+            userService.signUpUser(userForm);
+        } catch (HibernateException e) {
+            logger.error("Create User Failed -> ", e);
+            result = "redirect:/signUp?error";
+        }
+
+        return result;
     }
 
     @GetMapping("/denied")
